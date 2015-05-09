@@ -1,0 +1,6 @@
+#!/bin/bash
+# SpeechBuddy script
+
+processing-java --run --sketch=/Users/erica/documents/processing/speechbuddy/ --output=/Users/erica/documents/processing/speechbuddy/output/
+cd data
+python processPositions.py
