@@ -178,12 +178,18 @@ def filter_report(report, pos):
   return formatted_report
 
 def format(time):
-  starttime = positions['timestamp'][0]
-  newtime = time - starttime
-  return int(newtime/1000)
+  return int(time/1000)
+
+def generate_report(formatted_errors):
+  html_string = ""
+  for error in formatted_errors:
+    formatted_error = formatted_errors[error]
+  return html_string
 
 def create_html(formatted_errors):
+  report = generate_report(formatted_errors)
   h = HTML()
+  h.p(report)
   for error in formatted_errors:
     t = h.table
     header = t.tr
@@ -208,12 +214,24 @@ def write_html(html_string):
   HTMLFILE = 'report.html'
   f = open(HTMLFILE, 'w')
   header = """
+    <!DOCTYPE html> 
+    <html>
     <head>
       <link rel="stylesheet" type="text/css" href="speechBuddy.css">
     </head>
+    <body>
   """
   title = "<h1>SpeechBuddy Feedback Report</h1>"
-  html = header + title + html_string
+  video = """
+      <center><video width="400" controls>
+        <source src="speech.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video></center>
+  """
+  close = """
+    </body></html>
+  """
+  html = header + title + video + html_string + close
   f.write(html)
   f.close()
   return

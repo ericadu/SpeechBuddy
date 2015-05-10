@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import processing.video.*;
 
 
 // Kinect Library object
@@ -24,10 +25,13 @@ HashMap<String, Integer> skeleton = new HashMap<String, Integer>();
 int[] skeletonIds;
 boolean hastracked = false;
 PrintWriter output;
+String[] cameras = Capture.list();
+Capture cam;
 
 void setup()
 {
   size(640,480);
+  frameRate(25);
   
   context = new SimpleOpenNI(this);
   if(context.isInit() == false)
@@ -61,15 +65,29 @@ void setup()
   text("Click anywhere to begin.", 150, 270);
   getSkeletonList();
   
-  context.enableRecorder("speech.oni");
-
-  // select the recording channels
-  context.addNodeToRecording(SimpleOpenNI.NODE_DEPTH, true);
-  context.addNodeToRecording(SimpleOpenNI.NODE_IMAGE, true);
+  // Begin recording
+  if (cameras.length == 0)
+  {
+    println("There are no cameras available for capture.");
+    exit();
+  } else
+  {
+    println("Available cameras:");
+    for (int i = 0; i < cameras.length; i++)
+    {
+      println(cameras[i]);
+    }
+    
+    // The camera can be initialized directly using an 
+    // element from the array returned by list():
+    cam = new Capture(this, cameras[0]);
+    cam.start();     
+  } 
 }
 
 void draw()
 {
+  saveFrame("data/images/speech-#####.tif");
   if (start) {
     // update cam
     context.update();
@@ -94,6 +112,7 @@ void draw()
         newRow.setInt("user", userList[i]);
         newRow.setInt("timestamp", millis());
         hastracked = true;
+        set(0, 0, cam);
         println("nowtracking");
         
         for (int j=0; j<skeletonNames.length; j++)
@@ -114,6 +133,10 @@ void draw()
             newRow.setFloat("comy", com.y);
             newRow.setFloat("comz", com.z);
           } 
+        }
+        
+        if (cam.available() == true) {
+          cam.read();
         }
       }
     }
@@ -178,6 +201,7 @@ void keyPressed()
   {
   case ' ':
     saveTable(positions, "data/positions.csv");
+    cam.stop();
     noLoop();
     exit();
   }
