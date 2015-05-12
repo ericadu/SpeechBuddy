@@ -218,18 +218,46 @@ def write_html(html_string):
     <html>
     <head>
       <link rel="stylesheet" type="text/css" href="speechBuddy.css">
+      <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+          var allRows = document.getElementsByTagName("tr");
+          var video = document.getElementById("speech-video");
+
+          for (var i=0; i<allRows.length; i++) {
+            allRows[i].addEventListener('click', function(e){
+              var currRow = e.currentTarget;
+              var cells = currRow.children;
+              video.currentTime = parseInt(cells[1].innerText);
+              video.onloadedmetadata = function() {
+                video.play();
+              }
+            });
+          }
+        });
+      </script>
     </head>
     <body>
   """
   title = "<h1>SpeechBuddy Feedback Report</h1>"
   video = """
-      <center><video width="400" controls>
+    <div class="column">
+      <center>
+      <video id="speech-video" width="400" controls>
         <source src="speech.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
-      </video></center>
+      </video>
+      <div>
+        <h3>Successes:</h3>
+        <p>INSERT STUFF HERE</p>
+        <h3>Key Points of Improvement:</h3>
+        <p> INSERT STUFF HERE</p>
+      </div>
+      </center>
+    </div>
+    <div class="column scrollable">
   """
   close = """
-    </body></html>
+    </div></body></html>
   """
   html = header + title + video + html_string + close
   f.write(html)

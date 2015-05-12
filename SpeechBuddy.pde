@@ -65,16 +65,12 @@ void setup()
   text("Click anywhere to begin.", 150, 270);
   getSkeletonList();
   
-  // Begin recording
-  if (cameras.length == 0)
-  {
+  if (cameras.length == 0) {
     println("There are no cameras available for capture.");
     exit();
-  } else
-  {
+  } else {
     println("Available cameras:");
-    for (int i = 0; i < cameras.length; i++)
-    {
+    for (int i = 0; i < cameras.length; i++) {
       println(cameras[i]);
     }
     

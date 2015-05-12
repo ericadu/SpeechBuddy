@@ -1,3 +1,7 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
 table a:link {
   color: #666;
   font-weight: bold;
@@ -14,9 +18,8 @@ table a:hover {
   text-decoration:underline;
 }
 table {
-  font-family: Helvetica, Arial, sans-serif;
   color:#666;
-  font-size:20px;
+  font-size:18px;
   text-shadow: 1px 1px 0px #fff;
   background:#eaebec;
   margin: 20px auto;
@@ -30,8 +33,9 @@ table {
   -webkit-box-shadow: 0 1px 2px #d1d1d1;
   box-shadow: 0 1px 2px #d1d1d1;
 }
+
 table th {
-  padding:21px 25px 22px 25px;
+  padding:15px 25px 15px 25px;
   border-top:1px solid #fafafa;
   border-bottom:1px solid #e0e0e0;
 
@@ -97,7 +101,17 @@ table tr:hover td {
 }
 
 h1 {
-  font-family: Helvetica, Arial, sans-serif;
   text-align: center;
   padding: 20px;
+}
+
+.column {
+  height: 500px;
+  width: 45%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.scrollable {
+  overflow: scroll;
 }

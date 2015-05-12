@@ -1,7 +1,7 @@
 #!/bin/bash
 # SpeechBuddy script
 
-processing-java --run --sketch=/Users/erica/documents/processing/speechbuddy/ --output=/Users/erica/documents/processing/speechbuddy/output/
+processing-java --run --sketch=$PWD --output=$PWD/output
 cd data
 ffmpeg -f image2 -r 25 -i images/speech-%5d.tif speech.mp4
 python processPositions.py
