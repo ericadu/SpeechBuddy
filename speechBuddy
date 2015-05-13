@@ -1,11 +1,11 @@
 #!/bin/bash
 # SpeechBuddy script
 
-RESET=false
-
 if [ $# = 1 ]; then
   if [ "$1" = "-r" ]; then
-    $RESET=true
+    RESET=true
+  else
+    RESET=false
   fi
 fi
 
