@@ -1,6 +1,22 @@
 #!/bin/bash
 # SpeechBuddy script
 
+RESET=false
+
+if [ $# = 1 ]; then
+  if [ "$1" = "-r" ]; then
+    $RESET=true
+  fi
+fi
+
+if [ "$RESET" = true ] ; then
+  rm -r output
+  rm -r data/images
+  rm data/positions.csv
+  rm data/report.html
+  rm data/speech.mp4
+fi
+
 processing-java --run --sketch=$PWD --output=$PWD/output
 cd data
 ffmpeg -f image2 -r 25 -i images/speech-%5d.tif speech.mp4

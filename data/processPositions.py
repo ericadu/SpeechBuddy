@@ -163,14 +163,16 @@ def filter_report(report, pos):
 
   for error in report:
     formatted_errors = []
-    times = report[error]
+    # times = report[error]
+    original_times = pos['timestamp']
+    times = list(set([format(original_times[int(time)]) for time in report[error]]))
+    times.sort()
     grouped_times = [map(itemgetter(1), g) for k, g in groupby(enumerate(times), lambda (i,x):i-x)]
+    print grouped_times
 
     for time in grouped_times:
       if len(time) > 1:
-        original_times = pos['timestamp']
-        formatted_error = {"start": format(original_times[time[0]]),
-                           "end": format(original_times[time[-1]])}
+        formatted_error = {"start": time[0], "end": time[-1]}
         formatted_errors.append(formatted_error)
 
     formatted_report[error] = formatted_errors
@@ -178,7 +180,7 @@ def filter_report(report, pos):
   return formatted_report
 
 def format(time):
-  return int(time/1000)
+  return int(time/1000) - 5
 
 def generate_report(formatted_errors):
   html_string = ""
@@ -248,9 +250,7 @@ def write_html(html_string):
       </video>
       <div>
         <h3>Successes:</h3>
-        <p>INSERT STUFF HERE</p>
         <h3>Key Points of Improvement:</h3>
-        <p> INSERT STUFF HERE</p>
       </div>
       </center>
     </div>
